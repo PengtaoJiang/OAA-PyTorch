@@ -158,5 +158,5 @@ if __name__ == '__main__':
     args = get_arguments()
     print('Running parameters:\n', args)
     if not os.path.exists(args.snapshot_dir):
-        os.mkdir(args.snapshot_dir)
+        os.makedirs(args.snapshot_dir)
     train(args)
