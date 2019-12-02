@@ -10,5 +10,9 @@ cd OAA-PyTorch/
 ./train.sh 
 ```
 ## Pre-Accumulated Maps and Models [[link]](https://drive.google.com/drive/folders/1mu_rYkZ8hCiM0X9tjq04R0K-gJ17RPRU?usp=sharing)
+## Integal Attention learning
+```
+./train_iam.sh
+```
 
 If you have any question about OAA, please feel free to contact [Me](https://pengtaojiang.github.io/) (pt.jiang AT mail DOT nankai.edu.cn). 
