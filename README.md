@@ -4,11 +4,11 @@ The PyTorch code for ["Integral Object Mining via Online Attention Accumulation"
 python3  
 torch >= 1.0  
 tqdm
-## attention accumulation
+## Attention accumulation
 ```
 cd OAA-PyTorch/
 ./train.sh 
 ```
-### [Pre-Computed Maps and Models](https://drive.google.com/drive/folders/1mu_rYkZ8hCiM0X9tjq04R0K-gJ17RPRU?usp=sharing)
+### [Pre-Accumulated Maps and Models](https://drive.google.com/drive/folders/1mu_rYkZ8hCiM0X9tjq04R0K-gJ17RPRU?usp=sharing)
 
 If you have any question about OAA, please feel free to contact [Me](https://pengtaojiang.github.io/) (pt.jiang AT mail DOT nankai.edu.cn). 
