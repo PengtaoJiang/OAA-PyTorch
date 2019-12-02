@@ -9,6 +9,6 @@ tqdm
 cd OAA-PyTorch/
 ./train.sh 
 ```
-### [Pre-Accumulated Maps and Models](https://drive.google.com/drive/folders/1mu_rYkZ8hCiM0X9tjq04R0K-gJ17RPRU?usp=sharing)
+## Pre-Accumulated Maps and Models [[link]](https://drive.google.com/drive/folders/1mu_rYkZ8hCiM0X9tjq04R0K-gJ17RPRU?usp=sharing)
 
 If you have any question about OAA, please feel free to contact [Me](https://pengtaojiang.github.io/) (pt.jiang AT mail DOT nankai.edu.cn). 
