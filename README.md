@@ -9,10 +9,17 @@ tqdm
 cd OAA-PyTorch/
 ./train.sh 
 ```
-## Pre-Accumulated Maps and Models [[link]](https://drive.google.com/drive/folders/1mu_rYkZ8hCiM0X9tjq04R0K-gJ17RPRU?usp=sharing)
+After the training process, you can resize the accumulated attention map to original image size.
+```
+cd ./runs/exp1/
+python res.py
+```
+## Pre-accumulated maps and models [[link]](https://drive.google.com/drive/folders/1mu_rYkZ8hCiM0X9tjq04R0K-gJ17RPRU?usp=sharing)
 ## Integal Attention learning
+If you want to skip the online attention accumulation process to train the integral model directly, Download the pre-accumulated maps and 
+extract them to `exp1/`
 ```
 ./train_iam.sh
+./test_iam.sh
 ```
-
 If you have any question about OAA, please feel free to contact [Me](https://pengtaojiang.github.io/) (pt.jiang AT mail DOT nankai.edu.cn). 
