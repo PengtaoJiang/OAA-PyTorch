@@ -7,7 +7,7 @@ tqdm
 torchvision  
 python-opencv
 
-Download the [VOCdevkit.tar.gz](https://drive.google.com/file/d/1uh5bWXvLOpE-WZUUtO77uwCB4Qnh6d7X/view) file and extract the voc data into data/ folder.
+Download the [VOCdevkit.tar.gz](https://drive.google.com/file/d/1uh5bWXvLOpE-WZUUtO77uwCB4Qnh6d7X/view) file and extract it into data/ folder.
 
 ## Attention accumulation
 ```
