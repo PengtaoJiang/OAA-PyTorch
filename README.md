@@ -4,6 +4,11 @@ The PyTorch code for ["Integral Object Mining via Online Attention Accumulation"
 python3  
 torch >= 1.0  
 tqdm
+torchvision  
+python-opencv
+
+Download the [VOCdevkit.tar.gz](https://drive.google.com/file/d/1uh5bWXvLOpE-WZUUtO77uwCB4Qnh6d7X/view) file and extract the voc data into data/ folder.
+
 ## Attention accumulation
 ```
 cd OAA-PyTorch/
