@@ -3,7 +3,7 @@ The PyTorch code for ["Integral Object Mining via Online Attention Accumulation"
 ## Installation
 python3  
 torch >= 1.0  
-tqdm
+tqdm  
 torchvision  
 python-opencv
 
