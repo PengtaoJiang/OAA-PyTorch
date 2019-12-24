@@ -2,9 +2,9 @@
 EXP=exp1
 
 CUDA_VISIBLE_DEVICES=1 python3 ./scripts/train.py \
-    --img_dir=../Classification/data/VOCdevkit/VOC2012/JPEGImages/ \
-    --train_list=../Classification/data/VOCdevkit/VOC2012/ImageSets/Segmentation/train_cls.txt \
-    --test_list=../Classification/data/VOCdevkit/VOC2012/ImageSets/Segmentation/val_cls.txt \
+    --img_dir=./data/VOCdevkit/VOC2012/JPEGImages/ \
+    --train_list=./data/VOCdevkit/VOC2012/ImageSets/Segmentation/train_cls.txt \
+    --test_list=./data/VOCdevkit/VOC2012/ImageSets/Segmentation/val_cls.txt \
     --epoch=15 \
     --lr=0.001 \
     --batch_size=5 \
