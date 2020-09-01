@@ -1,5 +1,6 @@
 # OAA-PyTorch
-The PyTorch code for ["Integral Object Mining via Online Attention Accumulation"](http://openaccess.thecvf.com/content_ICCV_2019/papers/Jiang_Integral_Object_Mining_via_Online_Attention_Accumulation_ICCV_2019_paper.pdf), which is implemented based on the code of [psa](https://github.com/jiwoon-ahn/psa) and [ACoL](https://github.com/xiaomengyc/ACoL). 
+The PyTorch code for ["Integral Object Mining via Online Attention Accumulation"](http://openaccess.thecvf.com/content_ICCV_2019/papers/Jiang_Integral_Object_Mining_via_Online_Attention_Accumulation_ICCV_2019_paper.pdf), which is implemented based on the code of [psa](https://github.com/jiwoon-ahn/psa) and [ACoL](https://github.com/xiaomengyc/ACoL).
+The performance of our PyTorch-code is a little bit poorer than that of Caffe-code. If you can reimplement it utilizing Pytorch, please feel free to contact me. 
 ## Installation
 python3  
 torch >= 1.0  
