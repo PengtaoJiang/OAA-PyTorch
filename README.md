@@ -33,3 +33,10 @@ extract them to `exp1/`.
 ./test_iam.sh
 ```
 If you have any question about OAA, please feel free to contact [Me](https://pengtaojiang.github.io/) (pt.jiang AT mail DOT nankai.edu.cn). 
+
+## Performance
+Method |mIoU | mIoU (crf)  
+--- |:---:|:---:
+OAA  | 65.7 | 66.9 
+OAA<sup>+ | 66.6 | 67.8
+
