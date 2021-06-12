@@ -37,6 +37,6 @@ extract them to `exp1/`.
 Method |mIoU | mIoU (crf)  
 --- |:---:|:---:
 OAA  | 65.7 | 66.9 
-OAA<sup>+ | 66.6 | 67.8
+OAA<sup>+ | 66.6 | 67.8  
 
 If you have any question about OAA, please feel free to contact [Me](https://pengtaojiang.github.io/) (pt.jiang AT mail DOT nankai.edu.cn). 
