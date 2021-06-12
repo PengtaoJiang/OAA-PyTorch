@@ -11,7 +11,7 @@ model_urls = {'vgg16': 'https://download.pytorch.org/models/vgg16-397923af.pth'}
 
 class VGG(nn.Module):
 
-    def __init__(self, features, num_classes=1000, init_weights=True):
+    def __init__(self, features, num_classes=20, init_weights=True):
         super(VGG, self).__init__()
         self.features = features
         self.extra_convs = nn.Sequential(
@@ -21,8 +21,9 @@ class VGG(nn.Module):
             nn.ReLU(True),
             nn.Conv2d(512, 512, kernel_size=3, padding=1),
             nn.ReLU(True),
-            nn.Conv2d(512,20,1)            
+            nn.Conv2d(512,num_classes,1)            
         )
+        self._initialize_weights()
 
     def forward(self, x):
         x = self.features(x)
@@ -32,8 +33,9 @@ class VGG(nn.Module):
     def _initialize_weights(self):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
-                m.weight.data.normal_(0, math.sqrt(2. / n))
+                # n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                #m.weight.data.normal_(0, math.sqrt(2. / n))
+                m.weight.data.normal_(0, 0.01)
                 if m.bias is not None:
                     m.bias.data.zero_()
             elif isinstance(m, nn.BatchNorm2d):

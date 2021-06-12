@@ -5,7 +5,7 @@ import torchvision
 import torch
 import numpy as np
 from torch.utils.data import Dataset
-from .imutils import RandomResizeLong
+from .imutils import ResizeShort
 import os
 from PIL import Image
 import random
@@ -20,14 +20,14 @@ def train_data_loader(args, test_path=False, segmentation=False):
        
     input_size = int(args.input_size)
     crop_size = int(args.crop_size)
-    tsfm_train = transforms.Compose([transforms.Resize(input_size),  
-                                     #RandomResizeLong(256, 512),
+    tsfm_train = transforms.Compose([#transforms.Resize(input_size),  
+                                     ResizeShort(224),
                                      transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.1),
                                      transforms.ToTensor(),
                                      transforms.Normalize(mean_vals, std_vals),
                                      ])
 
-    tsfm_test = transforms.Compose([transforms.Resize(input_size),  
+    tsfm_test = transforms.Compose([ResizeShort(224), 
                                      transforms.ToTensor(),
                                      transforms.Normalize(mean_vals, std_vals),
                                      ])
@@ -50,7 +50,8 @@ def test_data_loader(args, test_path=False, segmentation=False):
 
     input_size = int(args.input_size)
 
-    tsfm_test = transforms.Compose([transforms.Resize(input_size),  
+    tsfm_test = transforms.Compose([#transforms.Resize(input_size),  
+                                     ResizeShort(224), 
                                      transforms.ToTensor(),
                                      transforms.Normalize(mean_vals, std_vals),
                                      ])  
@@ -132,13 +133,8 @@ def train_data_loader_iam(args, test_path=False, segmentation=False):
        
     input_size = int(args.input_size)
     crop_size = int(args.crop_size)
-    tsfm_train = transforms.Compose([transforms.Resize(input_size),  
+    tsfm_train = transforms.Compose([ResizeShort(224),  
                                      transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.1),
-                                     transforms.ToTensor(),
-                                     transforms.Normalize(mean_vals, std_vals),
-                                     ])
-
-    tsfm_test = transforms.Compose([transforms.Resize(input_size),  
                                      transforms.ToTensor(),
                                      transforms.Normalize(mean_vals, std_vals),
                                      ])
@@ -169,8 +165,10 @@ class VOCDataset_iam(Dataset):
 
         im_labels = self.label_list[idx]
         im_label_names = self.label_name_list[idx]
-        labels = np.zeros((self.num_classes, 32, 32), dtype=np.float32)
-        
+        tmp = Image.open(im_label_names[0])
+        h, w = tmp.size
+        labels = np.zeros((self.num_classes, w, h), dtype=np.float32)
+
         for j in range(len(im_label_names)):
             label = im_labels[j]
             label_name = im_label_names[j]

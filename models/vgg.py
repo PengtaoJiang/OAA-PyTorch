@@ -33,21 +33,25 @@ class VGG(nn.Module):
         x = self.features(x)
         x = self.extra_convs(x)
         
-        self.map1 = x.clone()
+        self.map1 = x.clone().detach()
         x = F.avg_pool2d(x, kernel_size=(x.size(2), x.size(3)), padding=0)
         x = x.view(-1, 20)
         
         ###  the online attention accumulation process
-        pre_probs = x.clone()
+        pre_probs = x.clone().detach()
         probs = torch.sigmoid(pre_probs)  # compute the prob
-        
+        pred_inds_sort = torch.argsort(-probs)
+
         if index != None and epoch > 0:
             atts = self.map1
             atts[atts < 0] = 0
             ind = torch.nonzero(label)
+            num_labels = torch.sum(label, dim=1).long()
 
             for i in range(ind.shape[0]):
                 batch_index, la = ind[i]
+                pred_ind_select = pred_inds_sort[batch_index, :num_labels[batch_index]]
+
                 accu_map_name = '{}/{}_{}.png'.format(self.att_dir, batch_index+index, la)
                 att = atts[batch_index, la].cpu().data.numpy()
                 att = att / (att.max() + 1e-8) * 255
@@ -58,7 +62,7 @@ class VGG(nn.Module):
                     continue
                 
                 #naive filter out the low quality attention map with prob
-                if probs[batch_index, la] < 0.1:  
+                if la not in list(pred_ind_select):  
                     continue
 
                 if not os.path.exists(accu_map_name):
@@ -78,7 +82,8 @@ class VGG(nn.Module):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
-                m.weight.data.normal_(0, math.sqrt(2. / n))
+                m.weight.data.normal_(0, 0.01)
+                # m.weight.data.normal_(0, math.sqrt(2. / n))
                 if m.bias is not None:
                     m.bias.data.zero_()
             elif isinstance(m, nn.BatchNorm2d):

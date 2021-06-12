@@ -21,6 +21,22 @@ class RandomResizeLong():
         img = img.resize(target_shape, resample=PIL.Image.CUBIC)
         return img
 
+class ResizeShort():
+    def __init__(self, short_size):
+        self.short_size = short_size
+
+    def __call__(self, img):
+
+        target_long = self.short_size
+        w, h = img.size
+
+        if w < h:
+            target_shape = (target_long, int(round(h * target_long / w)))
+        else:
+            target_shape = (int(round(w * target_long / h)), target_long)
+
+        img = img.resize(target_shape, resample=PIL.Image.CUBIC)
+        return img 
 
 class RandomCrop():
 
