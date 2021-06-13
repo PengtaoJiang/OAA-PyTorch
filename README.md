@@ -45,3 +45,5 @@ OAA<sup>+ | 66.6 | 67.8
 
 If you have any question about OAA, please feel free to contact [Me](https://pengtaojiang.github.io/) (pt.jiang AT mail DOT nankai.edu.cn). 
 
+## License
+The source code is free for research and education use only. Any comercial use should get formal permission first.
