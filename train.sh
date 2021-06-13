@@ -2,7 +2,7 @@
 EXP=exp1
 
 CUDA_VISIBLE_DEVICES=0 python3 ./scripts/train.py \
-    --img_dir=/home/ubuntu/Project/datasets/VOCdevkit/VOC2012/JPEGImages/ \
+    --img_dir=./data/VOCdevkit/VOC2012/JPEGImages/ \
     --train_list=./data/voc12/train_cls.txt \
     --test_list=./data/voc12/val_cls.txt \
     --epoch=15 \
