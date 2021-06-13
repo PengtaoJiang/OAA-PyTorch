@@ -31,7 +31,11 @@ If you want to skip the online attention accumulation process to train the integ
 ```
 
 ## Weakly supervised Segmentation
-
+To train a segmentation model, you need to generate pseudo segmentation labels first by 
+```
+python gen_gt.py
+```
+Then you can train the [deeplab-pytorch](https://github.com/kazuto1011/deeplab-pytorch) model.
 ## Performance
 Method |mIoU | mIoU (crf)  
 --- |:---:|:---:
