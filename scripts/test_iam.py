@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/home/miao/Projects/OAA_pytorch/')
+sys.path.append('/home/ubuntu/Project/OAA-PyTorch/')
 import os
 import cv2
 import torch
@@ -90,9 +90,9 @@ def validate(args):
                         att = np.array(att * 255, dtype=np.uint8)
                         out_name = im_name + '_{}.png'.format(i)
                         att = cv2.resize(att, (width, height), interpolation=cv2.INTER_CUBIC)
-                        att = cv_im_gray * 0.2 + att * 0.8
-                        #cv2.imwrite(out_name, att)
-                        plt.imsave(out_name, att, cmap=colormap(i))
+                        #att = cv_im_gray * 0.2 + att * 0.8
+                        cv2.imwrite(out_name, att)
+                        #plt.imsave(out_name, att, cmap=colormap(i))
 
 if __name__ == '__main__':
     args = get_arguments()

@@ -1,9 +1,9 @@
 import sys
-sys.path.append('/home/miao/Projects/OAA_pytorch/')
+import os
+sys.path.append(os.getcwd())
 
 import torch
 import argparse
-import os
 import time
 import shutil
 import json
@@ -19,21 +19,18 @@ from utils import AverageMeter
 from utils.LoadData import train_data_loader_iam
 from tqdm import trange, tqdm
 
-ROOT_DIR = '/'.join(os.getcwd().split('/')[:-1])
-print('Project Root Dir:', ROOT_DIR)
 
 def get_arguments():
     parser = argparse.ArgumentParser(description='The Pytorch code of OAA')
-    parser.add_argument("--root_dir", type=str, default=ROOT_DIR, help='Root dir for the project')
     parser.add_argument("--img_dir", type=str, default='', help='Directory of training images')
     parser.add_argument("--train_list", type=str, default='None')
     parser.add_argument("--test_list", type=str, default='None')
     parser.add_argument("--batch_size", type=int, default=20)
+    parser.add_argument("--iter_size", type=int, default=5)
     parser.add_argument("--input_size", type=int, default=256)
     parser.add_argument("--crop_size", type=int, default=224)
     parser.add_argument("--dataset", type=str, default='imagenet')
     parser.add_argument("--num_classes", type=int, default=20)
-    parser.add_argument("--threshold", type=float, default=0.6)
     parser.add_argument("--lr", type=float, default=0.001)
     parser.add_argument("--weight_decay", type=float, default=0.0005)
     parser.add_argument("--decay_points", type=str, default='61')
@@ -44,7 +41,7 @@ def get_arguments():
     parser.add_argument("--resume", type=str, default='False')
     parser.add_argument("--global_counter", type=int, default=0)
     parser.add_argument("--current_epoch", type=int, default=0)
-    parser.add_argument("--att_dir", type=str, default='./runs/exp2/')
+    parser.add_argument("--att_dir", type=str, default='./runs/exp8/')
 
     return parser.parse_args()
 
@@ -54,16 +51,15 @@ class ExLoss(nn.Module):
 
     def forward(self, input, target):
         assert(input.size() == target.size())
-        scalar = torch.tensor([0]).float().cuda()
-        pos = torch.gt(target, 0)
-        neg = torch.eq(target, 0)
+        pos = torch.gt(target, 0.001)
+        neg = torch.le(target, 0.001)
         pos_loss = -target[pos] * torch.log(torch.sigmoid(input[pos]))
-        neg_loss = -torch.log(torch.exp(-torch.max(input[neg], scalar.expand_as(input[neg]))) + 1e-8) \
-                + torch.log(1 + torch.exp(-torch.abs(input[neg])))
+        neg_loss = -torch.log(1 - torch.sigmoid(input[neg]) + 1e-8)
       
         loss = 0.0
         num_pos = torch.sum(pos)
         num_neg = torch.sum(neg)
+        # print(num_pos, num_neg)
         if num_pos > 0:
             loss += 1.0 / num_pos.float() * torch.sum(pos_loss)
         if num_neg > 0:
@@ -114,19 +110,24 @@ def train(args):
         batch_time.reset()
         res = my_optim.reduce_lr(args, optimizer, current_epoch)
         steps_per_epoch = len(train_loader)
-        
+        flag = 0
+
         for idx, dat in enumerate(train_loader):
             img, label = dat
             label = label.cuda(non_blocking=True)
             logits = model(img)
-
+            
             if len(logits.shape) == 1:
                 logits = logits.reshape(label.shape)
             loss_val = criterion(logits, label)
-            
-            optimizer.zero_grad()
             loss_val.backward()
-            optimizer.step()
+
+            flag += 1
+            if flag == args.iter_size:
+                optimizer.step()
+                optimizer.zero_grad()
+                flag = 0
+
 
             losses.update(loss_val.data.item(), img.size()[0])
             batch_time.update(time.time() - end)

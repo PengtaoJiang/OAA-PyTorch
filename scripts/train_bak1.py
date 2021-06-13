@@ -1,9 +1,9 @@
 import sys
-import os
-sys.path.append(os.getcwd())
+sys.path.append('/home/ubuntu/Project/OAA-PyTorch/')
 
 import torch
 import argparse
+import os
 import time
 import shutil
 import json
@@ -19,20 +19,23 @@ from utils import AverageMeter
 from utils.LoadData import train_data_loader
 from tqdm import trange, tqdm
 
+ROOT_DIR = '/'.join(os.getcwd().split('/')[:-1])
+print('Project Root Dir:', ROOT_DIR)
 
 def get_arguments():
     parser = argparse.ArgumentParser(description='The Pytorch code of OAA')
+    parser.add_argument("--root_dir", type=str, default=ROOT_DIR, help='Root dir for the project')
     parser.add_argument("--img_dir", type=str, default='', help='Directory of training images')
     parser.add_argument("--train_list", type=str, default='None')
     parser.add_argument("--test_list", type=str, default='None')
-    parser.add_argument("--batch_size", type=int, default=1)
-    parser.add_argument("--iter_size", type=int, default=5)
+    parser.add_argument("--batch_size", type=int, default=20)
     parser.add_argument("--input_size", type=int, default=256)
     parser.add_argument("--crop_size", type=int, default=224)
     parser.add_argument("--dataset", type=str, default='imagenet')
     parser.add_argument("--num_classes", type=int, default=20)
+    parser.add_argument("--threshold", type=float, default=0.6)
     parser.add_argument("--lr", type=float, default=0.001)
-    parser.add_argument("--weight_decay", type=float, default=0.0005)
+    parser.add_argument("--weight_decay", type=float, default=0.0002)
     parser.add_argument("--decay_points", type=str, default='61')
     parser.add_argument("--epoch", type=int, default=15)
     parser.add_argument("--num_workers", type=int, default=20)
@@ -41,7 +44,7 @@ def get_arguments():
     parser.add_argument("--resume", type=str, default='False')
     parser.add_argument("--global_counter", type=int, default=0)
     parser.add_argument("--current_epoch", type=int, default=0)
-    parser.add_argument("--att_dir", type=str, default='./runs/exp1/')
+    parser.add_argument("--att_dir", type=str, default='./runs/')
 
     return parser.parse_args()
 
@@ -109,7 +112,6 @@ def train(args):
         
         validate(model, val_loader)
         index = 0  
-        flag = 0
         for idx, dat in enumerate(train_loader):
             img_name, img, label = dat
             label = label.cuda(non_blocking=True)
@@ -119,14 +121,11 @@ def train(args):
 
             if len(logits.shape) == 1:
                 logits = logits.reshape(label.shape)
-            loss_val = F.multilabel_soft_margin_loss(logits, label) / args.iter_size
+            loss_val = F.multilabel_soft_margin_loss(logits, label)
+            
+            optimizer.zero_grad()
             loss_val.backward()
-
-            flag += 1
-            if flag == args.iter_size:
-                optimizer.step()
-                optimizer.zero_grad()
-                flag = 0
+            optimizer.step()
 
             losses.update(loss_val.data.item(), img.size()[0])
             batch_time.update(time.time() - end)
