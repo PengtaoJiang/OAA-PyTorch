@@ -1,14 +1,6 @@
 # OAA-PyTorch
 The Official PyTorch code for ["Integral Object Mining via Online Attention Accumulation"](http://openaccess.thecvf.com/content_ICCV_2019/papers/Jiang_Integral_Object_Mining_via_Online_Attention_Accumulation_ICCV_2019_paper.pdf), which is implemented based on the code of [psa](https://github.com/jiwoon-ahn/psa) and [ACoL](https://github.com/xiaomengyc/ACoL).  
 
-## Performance
-Method |mIoU | mIoU (crf)  
---- |:---:|:---:
-OAA  | 65.7 | 66.9 
-OAA<sup>+ | 66.6 | 67.8
-
-If you have any question about OAA, please feel free to contact [Me](https://pengtaojiang.github.io/) (pt.jiang AT mail DOT nankai.edu.cn). 
-  
 ## Installation
 python3  
 torch >= 1.0  
@@ -44,4 +36,12 @@ To train a segmentation model, you need to generate pseudo segmentation labels f
 python gen_gt.py
 ```
 Then you can train the [deeplab-pytorch](https://github.com/kazuto1011/deeplab-pytorch) model.
+
+## Performance
+Method |mIoU | mIoU (crf)  
+--- |:---:|:---:
+OAA  | 65.7 | 66.9 
+OAA<sup>+ | 66.6 | 67.8
+
+If you have any question about OAA, please feel free to contact [Me](https://pengtaojiang.github.io/) (pt.jiang AT mail DOT nankai.edu.cn). 
 
