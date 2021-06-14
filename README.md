@@ -45,5 +45,17 @@ OAA<sup>+ | 66.6 | 67.8
 
 If you have any question about OAA, please feel free to contact [Me](https://pengtaojiang.github.io/) (pt.jiang AT mail DOT nankai.edu.cn). 
 
+### Citation
+If you use these codes and models in your research, please cite:
+```
+@inproceedings{jiang2019integral,   
+      title={Integral Object Mining via Online Attention Accumulation},   
+      author={Jiang, Peng-Tao and Hou, Qibin and Cao, Yang and Cheng, Ming-Ming and Wei, Yunchao and Xiong, Hong-Kai},   
+      booktitle={Proceedings of the IEEE International Conference on Computer Vision},   
+      pages={2070--2079},   
+      year={2019} 
+}
+```
 ## License
 The source code is free for research and education use only. Any comercial use should get formal permission first.
+  
