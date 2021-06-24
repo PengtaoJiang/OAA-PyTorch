@@ -36,7 +36,8 @@ To train a segmentation model, you need to generate pseudo segmentation labels f
 python gen_gt.py
 ```
 Then you can train the [deeplab-pytorch](https://github.com/kazuto1011/deeplab-pytorch) model.
-Specifically, replace the segmentation labels with pseudo segmentation labels. Then you can follow the instructions to train deeplab. 
+Specifically, replace the ground-truth segmentation labels with pseudo segmentation labels. 
+Then you can follow the instructions to train deeplab. 
 ## Performance
 Method |mIoU | mIoU (crf)  
 --- |:---:|:---:
