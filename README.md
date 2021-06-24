@@ -35,9 +35,30 @@ To train a segmentation model, you need to generate pseudo segmentation labels f
 ```
 python gen_gt.py
 ```
-Then you can train the [deeplab-pytorch](https://github.com/kazuto1011/deeplab-pytorch) model.
-Specifically, replace the ground-truth segmentation labels with pseudo segmentation labels. 
-Then you can follow the instructions to train deeplab. 
+This code will generate pseudo segmentation labels in './data/VOCdevkit/VOC2012/proxy-gt/'.
+Then you can train the [deeplab-pytorch](https://github.com/kazuto1011/deeplab-pytorch) model as follows:  
+```
+cd deeplab-pytorch
+bash scripts/setup_caffemodels.sh
+python convert.py --dataset coco
+python convert.py --dataset voc12
+```
+Train the segmentation model by
+```
+python main.py train \
+      --config-path configs/voc2012.yaml
+```
+Test the segmentation model by 
+```
+python main.py test \
+    --config-path configs/voc12.yaml \
+    --model-path data/models/voc12/deeplabv2_resnet101_msc/train_aug/checkpoint_final.pth
+```
+Apply the crf post-processing by 
+```
+python main.py crf \
+    --config-path configs/voc12.yaml
+```
 ## Performance
 Method |mIoU | mIoU (crf)  
 --- |:---:|:---:
