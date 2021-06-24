@@ -25,7 +25,7 @@ train_lst_path = data_path + 'ImageSets/Segmentation/train_cls.txt'
 im_path = data_path + 'JPEGImages/'
 sal_path = data_path + 'saliency_aug/'
 att_path = './runs/exp1/attention/'
-save_path = './runs/exp1/proxy-gt/'
+save_path = './data/VOCdevkit/VOC2012/proxy-gt/'
 
 if not exists(save_path):
 	os.makedirs(save_path)
