@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Download released caffemodels
-#wget -nc -P ./data http://liangchiehchen.com/projects/released/deeplab_aspp_resnet101/prototxt_and_model.zip
+wget -nc -P ./data http://liangchiehchen.com/projects/released/deeplab_aspp_resnet101/prototxt_and_model.zip
 
 unzip -n ./data/prototxt_and_model.zip -d ./data
 
