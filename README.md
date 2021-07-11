@@ -78,6 +78,15 @@ If you use these codes and models in your research, please cite:
       year={2019} 
 }
 ```
+```
+@article{jiang2021online,
+  title={Online Attention Accumulation for Weakly Supervised Semantic Segmentation},
+  author={Jiang, Peng-Tao and Han, Ling-Hao and Hou, Qibin and Cheng, Ming-Ming and Wei, Yunchao},
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  year={2021},
+  publisher={IEEE}
+}
+```
 ## License
 The source code is free for research and education use only. Any comercial use should get formal permission first.
   
