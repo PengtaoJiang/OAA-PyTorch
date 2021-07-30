@@ -1,6 +1,7 @@
-import sys
-sys.path.append('/home/ubuntu/Project/OAA-PyTorch/')
 import os
+import sys
+sys.path.append(os.getcwd())
+
 import cv2
 import torch
 import numpy as np
