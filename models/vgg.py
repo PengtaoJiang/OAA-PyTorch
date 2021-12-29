@@ -29,15 +29,17 @@ class VGG(nn.Module):
         self.training_epoch = training_epoch
         self.att_dir = att_dir
         self.accu_dir = accu_dir
-        if not os.path.exists(self.att_dir):
-            os.makedirs(self.att_dir)
-        if not os.path.exists(self.accu_dir):
-            os.makedirs(self.accu_dir)
-
+        
         self.drop_layer = drop_layer
         self.drop_rate = drop_rate
         self.drop_threshold = drop_threshold
 
+        if self.drop_layer and not os.path.exists(self.att_dir):
+            os.makedirs(self.att_dir)
+        if not os.path.exists(self.accu_dir):
+            os.makedirs(self.accu_dir)
+
+        
     def forward(self, x, epoch=1, label=None, index=None):
         h, w = x.shape[-2:]
         if self.drop_layer and label!=None:
@@ -94,7 +96,8 @@ class VGG(nn.Module):
                     cv2.imwrite(accu_map_name,  accu_att)
 
                 # save current attention maps for oaa drop layer
-                cv2.imwrite(att_map_name,  att)
+                if self.drop_layer:
+                    cv2.imwrite(att_map_name,  att)
 
          ##############################################
 

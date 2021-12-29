@@ -15,5 +15,5 @@ CUDA_VISIBLE_DEVICES=0 python3 ./scripts/train.py \
     --num_classes=20 \
     --num_workers=8 \
     --snapshot_dir=./runs/${EXP}/model/  \
-    --att_dir=./runs/${EXP}/accu_att/ \
+    --accu_dir=./runs/${EXP}/accu_att/ \
     --decay_points='10'
