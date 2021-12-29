@@ -6,12 +6,14 @@ import math
 import cv2
 import numpy as np
 import os
+import random 
 
 model_urls = {'vgg16': 'https://download.pytorch.org/models/vgg16-397923af.pth'}
 
 class VGG(nn.Module):
 
-    def __init__(self, features, num_classes=1000, init_weights=True, att_dir='./runs/', training_epoch=15):
+    def __init__(self, features, num_classes=1000, init_weights=True, att_dir='./runs/', accu_dir='./runs/', 
+        training_epoch=15, drop_layer=False, drop_rate=0.0, drop_threshold=0.0):
         super(VGG, self).__init__()
         self.features = features
         self.extra_convs = nn.Sequential(
@@ -26,10 +28,28 @@ class VGG(nn.Module):
         self._initialize_weights()
         self.training_epoch = training_epoch
         self.att_dir = att_dir
+        self.accu_dir = accu_dir
         if not os.path.exists(self.att_dir):
             os.makedirs(self.att_dir)
+        if not os.path.exists(self.accu_dir):
+            os.makedirs(self.accu_dir)
+
+        self.drop_layer = drop_layer
+        self.drop_rate = drop_rate
+        self.drop_threshold = drop_threshold
 
     def forward(self, x, epoch=1, label=None, index=None):
+        h, w = x.shape[-2:]
+        if self.drop_layer and label!=None:
+            if random.uniform(0, 1) < self.drop_rate:
+                ind = torch.nonzero(label)
+                for i in range(ind.shape[0]):
+                    batch_index, la = ind[i]
+                    att_img_path = '{}/{}_{}.png'.format(self.att_dir, batch_index+index, la)
+                    if os.path.exists(att_img_path):
+                        att = cv2.resize(cv2.imread(att_img_path, 0), (w, h)) / 255.0
+                        x[:, :, att > self.drop_threshold] = 0.0                        
+
         x = self.features(x)
         x = self.extra_convs(x)
         
@@ -52,7 +72,8 @@ class VGG(nn.Module):
                 batch_index, la = ind[i]
                 pred_ind_select = pred_inds_sort[batch_index, :num_labels[batch_index]]
 
-                accu_map_name = '{}/{}_{}.png'.format(self.att_dir, batch_index+index, la)
+                accu_map_name = '{}/{}_{}.png'.format(self.accu_dir, batch_index+index, la)
+                att_map_name = '{}/{}_{}.png'.format(self.att_dir, batch_index+index, la)
                 att = atts[batch_index, la].cpu().data.numpy()
                 att = att / (att.max() + 1e-8) * 255
                 
@@ -71,6 +92,10 @@ class VGG(nn.Module):
                     accu_att = cv2.imread(accu_map_name, 0)
                     accu_att = np.maximum(accu_att, att)
                     cv2.imwrite(accu_map_name,  accu_att)
+
+                # save current attention maps for oaa drop layer
+                cv2.imwrite(att_map_name,  att)
+
          ##############################################
 
         return x

@@ -41,7 +41,11 @@ def get_arguments():
     parser.add_argument("--resume", type=str, default='False')
     parser.add_argument("--global_counter", type=int, default=0)
     parser.add_argument("--current_epoch", type=int, default=0)
-    parser.add_argument("--att_dir", type=str, default='./runs/exp1/')
+    parser.add_argument("--att_dir", type=str, default='./runs/exp1/att/')
+    parser.add_argument("--accu_dir", type=str, default='./runs/exp1/accu_att/')
+    parser.add_argument('--drop_layer', action='store_true')
+    parser.add_argument('--drop_rate', type=float, default=0.5)
+    parser.add_argument('--drop_threshold', type=float, default=0.6)
 
     return parser.parse_args()
 
@@ -52,7 +56,8 @@ def save_checkpoint(args, state, is_best, filename='checkpoint.pth.tar'):
         shutil.copyfile(savepath, os.path.join(args.snapshot_dir, 'model_best.pth.tar'))
 
 def get_model(args):
-    model = vgg.vgg16(pretrained=True, num_classes=args.num_classes, att_dir=args.att_dir, training_epoch=args.epoch)
+    model = vgg.vgg16(pretrained=True, num_classes=args.num_classes, att_dir=args.att_dir, accu_dir=args.accu_dir, 
+                training_epoch=args.epoch, drop_layer=args.drop_layer, drop_rate=args.drop_rate, drop_threshold=args.drop_threshold)
     model = torch.nn.DataParallel(model).cuda()
     param_groups = model.module.get_parameter_groups()
     optimizer = optim.SGD([

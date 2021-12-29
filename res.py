@@ -35,8 +35,8 @@ if __name__ == '__main__':
     root_folder = '/home/ubuntu/Project/datasets/VOCdevkit/VOC2012'
     im_lst, label_lst = load_dataset(train_lst)
     
-    atten_path = './runs/exp1/accu_att'
-    save_path = './runs/exp1/accu_att_zoom'
+    atten_path = './runs/exp3/accu_att'
+    save_path = './runs/exp3/accu_att_zoom'
     if not exists(save_path):
         os.mkdir(save_path)
     for i in range(len(im_lst)):
