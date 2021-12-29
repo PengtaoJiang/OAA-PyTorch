@@ -33,7 +33,6 @@ If you want to skip the online attention accumulation process to train the integ
 
 ## Attention Drop Layer
 ```
-cd OAA-PyTorch/
 ./train+.sh 
 ```
 After the training process, you can resize the accumulated attention map to original image size.
